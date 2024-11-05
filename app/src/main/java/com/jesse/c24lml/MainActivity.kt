@@ -61,7 +61,11 @@ class MainActivity : ComponentActivity() {
                     val scannerLauncher = rememberLauncherForActivityResult(
                         contract = ActivityResultContracts.StartIntentSenderForResult(),
                         onResult = {
-
+                            if (it.resultCode == RESULT_OK) {
+                                val result =
+                                    GmsDocumentScanningResult.fromActivityResultIntent(it.data)
+                                imageUri = result?.pages?.map { it.imageUri } ?: emptyList()
+                            }
                         }
                     )
 
